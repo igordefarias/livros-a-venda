@@ -14,7 +14,7 @@ const books = [
         title: "Will & Will",
         author: "John Green & David Levithan",
         genre: "Romance Jovem Adulto (YA)",
-        price: "R$ 12,00",
+        price: "R$ 12,99",
         image: "images/book2.jpg",
         synopsis: "Dois garotos com o mesmo nome, mas vidas completamente diferentes, têm seus caminhos cruzados em uma esquina de Chicago, o que acaba mudando a trajetória de ambos."
     },
