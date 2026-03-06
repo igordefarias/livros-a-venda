@@ -1,4 +1,4 @@
-// Base de dados completa (Atualizada com seus novos preços, categorias e status)
+// Base de dados completa
 const items = [
     {
         id: 1, title: "O Diário de um Mago", author: "Paulo Coelho", genre: "Ficção Autobiográfica / Esoterismo",
@@ -22,7 +22,7 @@ const items = [
     },
     {
         id: 5, title: "As Provações de Apolo: O Oráculo Oculto", author: "Rick Riordan", genre: "Fantasia / Mitologia",
-        price: "R$ 12,99", priceValue: 12.99, category: "livro", status: "vendido", // VENDIDO
+        price: "R$ 12,99", priceValue: 12.99, category: "livro", status: "vendido",
         image: "images/book5.jpg", synopsis: "O arrogante deus Apolo é punido por Zeus e transformado em um adolescente mortal sem poderes, precisando aprender a sobreviver no mundo moderno para reconquistar seu lugar no Olimpo."
     },
     {
@@ -32,7 +32,7 @@ const items = [
     },
     {
         id: 7, title: "Como Eu Era Antes de Você", author: "Jojo Moyes", genre: "Romance Contemporâneo / Drama",
-        price: "R$ 19,99", priceValue: 19.99, category: "livro", status: "vendido", // VENDIDO
+        price: "R$ 19,99", priceValue: 19.99, category: "livro", status: "vendido",
         image: "images/book7.jpg", synopsis: "A comovente história de Lou Clark e Will Traynor, um homem tetraplégico rico e cínico de quem ela é contratada para cuidar, transformando as perspectivas de vida de ambos."
     },
     {
@@ -67,7 +67,7 @@ const items = [
     },
     {
         id: 14, title: "O Quinze", author: "Rachel de Queiroz", genre: "Romance Regionalista Brasileiro",
-        price: "R$ 9,99", priceValue: 9.99, category: "livro", status: "vendido", // VENDIDO
+        price: "R$ 9,99", priceValue: 9.99, category: "livro", status: "vendido",
         image: "images/book14.jpg", synopsis: "Um grande clássico da literatura nacional que retrata de forma crua e realista o drama, a miséria e a luta pela sobrevivência dos retirantes durante a grande seca de 1915 no Nordeste."
     },
     {
@@ -90,7 +90,6 @@ const items = [
         price: "R$ 12,99", priceValue: 12.99, category: "livro", status: "disponivel",
         image: "images/book18.jpg", synopsis: "Uma obra reflexiva que aborda visões espirituais, escatologia e as transformações destinadas à humanidade segundo leis universais."
     },
-    // Adicionando os itens solicitados anteriormente
     {
         id: 19, title: "A Arte de Escrever", author: "Arthur Schopenhauer", genre: "Filosofia / Ensaios",
         price: "R$ 12,99", priceValue: 15.00, category: "livro", status: "disponivel",
@@ -122,13 +121,13 @@ const items = [
         image: "images/book24.jpg", synopsis: "Este volume reúne textos de diferentes autores antigos (como Platão e Xenofonte) que testemunharam ou documentaram a vida, os métodos e o julgamento do homem que mudou a filosofia ocidental."
     },
     {
-        id: 25, title: "Decline and Fall of the Roman Empire: VOL I & VOL II Capa Dura (English)", author: "Edward Gibbon", genre: "História Universal",
+        id: 25, title: "Decline and Fall of the Roman Empire: VOL I & VOL II", author: "Edward Gibbon", genre: "História Universal",
         price: "R$ 99,99", priceValue: 40.00, category: "livro", status: "disponivel",
         image: "images/book25.jpg", synopsis: "Edição da coleção 'Great Books of the Western World' (Volumes 40 e 41) trazendo a monumental e clássica obra histórica sobre o Império Romano."
     },
     {
         id: 26, title: "Perfume Claudia Leitte (2010)", author: "Jequiti", genre: "Perfumaria / Chipre Frutado",
-        price: "R$ 90,00", priceValue: 50.00, category: "perfume", status: "disponivel", // CATEGORIA PERFUME
+        price: "R$ 90,00", priceValue: 50.00, category: "perfume", status: "disponivel",
         image: "images/perfume-claudia.jpg", synopsis: "A clássica e sofisticada fragrância feminina lançada em 2010.\n\nPirâmide Olfativa:\n• Topo: Passas, Pêssego, Cassis e Bergamota.\n• Coração: Gengibre, Pimenta Rosa, Jasmim e Rosa.\n• Fundo: Patchouli, Âmbar, Baunilha e Sândalo."
     }
 ];
@@ -137,6 +136,7 @@ const items = [
 const bookshelf = document.getElementById('bookshelf');
 const filterStatus = document.getElementById('filter-status');
 const filterCategory = document.getElementById('filter-category');
+const filterGenre = document.getElementById('filter-genre'); // NOVO ELEMENTO
 const sortPrice = document.getElementById('sort-price');
 
 // Elementos do Modal
@@ -148,6 +148,27 @@ const modalAuthor = document.getElementById('modal-author');
 const modalGenre = document.getElementById('modal-genre');
 const modalSynopsis = document.getElementById('modal-synopsis');
 
+// Função para gerar as opções do filtro de Gênero dinamicamente
+function populateGenreFilter() {
+    // Extrai todos os gêneros sem repetir
+    const allGenres = [...new Set(items.map(item => item.genre))];
+    
+    // Separa os que contêm "Filosofia" e os demais
+    const filosofiaGenres = allGenres.filter(g => g.toLowerCase().includes('filosofia')).sort();
+    const otherGenres = allGenres.filter(g => !g.toLowerCase().includes('filosofia')).sort();
+    
+    // Junta tudo: Filosofia no topo, o resto depois
+    const sortedGenres = [...filosofiaGenres, ...otherGenres];
+
+    // Cria as opções no HTML
+    sortedGenres.forEach(genre => {
+        const option = document.createElement('option');
+        option.value = genre;
+        option.textContent = genre;
+        filterGenre.appendChild(option);
+    });
+}
+
 // Função para renderizar os itens na tela
 function renderItems(itemsToRender) {
     bookshelf.innerHTML = ''; // Limpa a estante
@@ -156,7 +177,6 @@ function renderItems(itemsToRender) {
         const card = document.createElement('div');
         card.classList.add('book-card');
         
-        // Verifica se está vendido para adicionar a etiqueta e o efeito opaco
         if(item.status === 'vendido') {
             card.classList.add('sold-card');
             const soldBadge = document.createElement('div');
@@ -190,13 +210,16 @@ function renderItems(itemsToRender) {
 function applyFilters() {
     const statusValue = filterStatus.value;
     const categoryValue = filterCategory.value;
+    const genreValue = filterGenre.value; // NOVO VALOR
     const sortValue = sortPrice.value;
 
     // Filtra
     let filtered = items.filter(item => {
         const matchStatus = (statusValue === 'todos') || (item.status === statusValue);
         const matchCategory = (categoryValue === 'todos') || (item.category === categoryValue);
-        return matchStatus && matchCategory;
+        const matchGenre = (genreValue === 'todos') || (item.genre === genreValue); // NOVA REGRA
+        
+        return matchStatus && matchCategory && matchGenre;
     });
 
     // Ordena
@@ -213,6 +236,7 @@ function applyFilters() {
 // Escutadores de Eventos dos Filtros
 filterStatus.addEventListener('change', applyFilters);
 filterCategory.addEventListener('change', applyFilters);
+filterGenre.addEventListener('change', applyFilters); // NOVO ESCUTADOR
 sortPrice.addEventListener('change', applyFilters);
 
 // Abrir modal com as informações
@@ -239,4 +263,5 @@ window.onclick = (event) => {
 }
 
 // Iniciar a renderização pela primeira vez
-renderItems(items);
+populateGenreFilter(); // Primeiro cria as opções de gênero
+renderItems(items);    // Depois desenha os livros
