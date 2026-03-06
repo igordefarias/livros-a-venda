@@ -8,13 +8,14 @@
 </head>
 <body>
     <header>
-        <h1>Bazar de Livros Novos e Usados</h1>
+        <h1>Bazar do Igor</h1>
         <div class="contact-info">
-            <p><strong>Mega promoção</strong> de livros a partir de <strong>R$ 9,99 até R$ 24,99</strong>! Olhos cansados de ler no celular? Deseja se divertir viajando para outros mundos ou se cultivar enquanto aprende algo novo, lendo à moda antiga? Então pegue sua caneca de chocolate quente e aproveite nossa seleção de genêros variados, tem pra todo gosto! Romance, fantasia, terror, esoterismo, astrologia, didáticos etc.
+            <p><strong>Mega promoção</strong> de livros a partir de <strong>R$ 9,99</strong>! Pegue sua caneca de chocolate quente e aproveite nossa seleção de genêros variados, tem pra todo gosto! Romance, fantasia, terror, esoterismo, filosofia, astrologia, didáticos etc.
                 <br>
-                <strong>Compre agora antes que acabe!</strong>
+                <strong>Últimas unidades, então corra!</strong>
                 <br>
             </p>
+            <p>Confira também nossos perfumes! P.S.: A lojinha está sempre em atualização, então já salva nos favoritos para conferir as últimas novidades.</p>
             
             <p><em>WhatsApp:</em> <a href="https://wa.me/5588994015188" target="_blank">(88) 99401-5188</a></p>
             <p><em>E-mail:</em> <a href="mailto:igorfarias258@gmail.com">igorfarias258@gmail.com</a></p>
@@ -23,6 +24,26 @@
     </header>
 
     <main>
+        <div class="filters-container">
+            <select id="filter-status">
+                <option value="todos">Todos os Status</option>
+                <option value="disponivel">Disponíveis</option>
+                <option value="vendido">Vendidos</option>
+            </select>
+
+            <select id="filter-category">
+                <option value="todos">Todas as Categorias</option>
+                <option value="livro">Só Livros</option>
+                <option value="perfume">Só Perfumes</option>
+            </select>
+
+            <select id="sort-price">
+                <option value="padrao">Ordenar por Preço</option>
+                <option value="asc">Menor para o Maior</option>
+                <option value="desc">Maior para o Menor</option>
+            </select>
+        </div>
+
         <div class="bookshelf" id="bookshelf">
             </div>
     </main>
